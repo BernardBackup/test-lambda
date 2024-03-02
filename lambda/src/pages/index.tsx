@@ -5,7 +5,7 @@ import { api } from "@/utils/api";
 
 export default function Home() {
   const hello = api.post.hello.useQuery({ text: "from tRPC" });
-  const [imageUrls, setImageUrls] = useState<string[]>([]); 
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   useEffect(() => {
     async function fetchImages() {
@@ -15,8 +15,8 @@ export default function Home() {
         try {
           const response = await fetch(`https://query-server.fly.dev/query?contract=first-nft&function=tokenURI&args=[${imageNumber}]`);
           const data = await response.json();
-          
-          const imageUrl = data.json; // Replace 'url' with the actual key containing the image URL
+
+          const imageUrl = data.url; // Assuming 'url' is the correct key containing the image URL
           urls.push(imageUrl);
         } catch (error) {
           console.error(`Error fetching image ${imageNumber}:`, error);
@@ -27,7 +27,7 @@ export default function Home() {
       setImageUrls(urls);
     }
 
-    fetchImages();
+    fetchImages(); // You should await this function call
   }, []);
 
 
@@ -44,7 +44,10 @@ export default function Home() {
             Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
           </h1>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-            {imageUrls}
+            {/* Render image URLs */}
+            {imageUrls.map((url, index) => (
+              <img key={index} src={url} alt={`Image ${index}`} />
+            ))}
             <Link
               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
               href="https://create.t3.gg/en/usage/first-steps"
