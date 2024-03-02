@@ -16,7 +16,7 @@ export default function Home() {
           const response = await fetch(`https://query-server.fly.dev/query?contract=first-nft&function=tokenURI&args=[${imageNumber}]`);
           const data = await response.json();
 
-          const imageUrl = data.url; // Assuming 'url' is the correct key containing the image URL
+          const imageUrl = data.json; // Assuming 'url' is the correct key containing the image URL
           urls.push(imageUrl);
         } catch (error) {
           console.error(`Error fetching image ${imageNumber}:`, error);
